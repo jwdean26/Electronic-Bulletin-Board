@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Community Bulletin Board</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* --- Page basics --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #ece7dd;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      max-width: 1200px;
+      padding: 1.5rem 1rem 0.5rem;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    /* --- The bulletin board itself --- */
+    .board-wrapper {
+      width: 100%;
+      max-width: 1200px;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .board {
+      position: relative;
+      width: 100%;
+      min-height: 70vh;
+      background: #d2a679;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.18) 0, transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(0,0,0,0.12) 0, transparent 35%);
+      border-radius: 18px;
+      box-shadow:
+        0 18px 45px rgba(0,0,0,0.35),
+        inset 0 0 18px rgba(0,0,0,0.35);
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* --- Note styles --- */
+    .note {
+      position: relative;
+      background: #fffae3;
+      padding: 1rem 1.1rem 1rem;
+      border-radius: 6px;
+      box-shadow:
+        0 10px 15px rgba(0,0,0,0.35),
+        0 0 0 1px rgba(0,0,0,0.08);
+      transform: rotate(-2deg);
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        translate 0.18s ease;
+    }
+
+    .note:nth-child(2n) { transform: rotate(2deg); }
+    .note:nth-child(3n) { transform: rotate(-1deg); }
+
+    .note:hover {
+      translate: 0 -4px;
+      box-shadow:
+        0 14px 24px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(0,0,0,0.12);
+    }
+
+    .note h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .note .meta {
+      font-size: 0.8rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .note p {
+      font-size: 0.9rem;
+      line-height: 1.35;
+      white-space: pre-line;
+    }
+
+    /* --- Pushpin / tape visual --- */
+    .note::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff, #c00);
+      border: 2px solid rgba(0,0,0,0.35);
+      transform: translateX(-50%);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.45);
+    }
+
+    /* --- Note “types” (color coding) --- */
+    .note.announcement {
+      background: #fff9c4;
+    }
+
+    .note.signup {
+      background: #e3f2fd;
+    }
+
+    .note.thankyou {
+      background: #fce4ec;
+    }
+
+    .note.document {
+      background: #f3e5f5;
+    }
+
+    /* Simple “list” look for signup sheets */
+    .signup ul {
+      margin-top: 0.5rem;
+      padding-left: 1.2rem;
+      font-size: 0.9rem;
+    }
+
+    .signup li {
+      margin-bottom: 0.15rem;
+    }
+
+    /* --- Footer --- */
+    footer {
+      margin: 1.5rem 0 1.5rem;
+      font-size: 0.8rem;
+      color: #777;
+      text-align: center;
+      padding: 0 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Community Bulletin Board</h1>
+    <p>Announcements, signup sheets, and thank you notes — all in one place.</p>
+  </header>
+
+  <main class="board-wrapper">
+    <section class="board" aria-label="Bulletin board">
+
+      <!-- Announcement -->
+      <article class="note announcement">
+        <h2>Upcoming Event: Spring Cleanup</h2>
+        <div class="meta">Posted: March 1 • Location: Community Park</div>
+        <p>
+Join us for our annual Spring Cleanup day!
+
+• Time: 9:00 AM – 12:00 PM
+• Meet at the north parking lot
+• Snacks and water provided
+        </p>
+      </article>
+
+      <!-- Signup sheet (simple version) -->
+      <article class="note signup">
+        <h2>Volunteer Signup</h2>
+        <div class="meta">Spring Cleanup • Sign up for a role</div>
+        <p>Roles we’re looking to fill:</p>
+        <ul>
+          <li>Check-in table</li>
+          <li>Refreshment station</li>
+          <li>Trash and recycling team</li>
+          <li>Photo / social media</li>
+        </ul>
+        <p>
+To sign up, email:
+cleanup@example.org
+        </p>
+      </article>
+
+      <!-- Thank you note -->
+      <article class="note thankyou">
+        <h2>Thank You!</h2>
+        <div class="meta">From: Event Committee</div>
+        <p>
+A huge thank you to everyone who helped with last month’s fundraiser.
+
+We exceeded our goal and it wouldn’t have been possible without you.
+        </p>
+      </article>
+
+      <!-- Informational document summary -->
+      <article class="note document">
+        <h2>Policy Update: Facility Use</h2>
+        <div class="meta">Effective April 15</div>
+        <p>
+Key changes:
+• Updated reservation time slots
+• New process for key pickup and drop-off
+• Clearer guidelines for after-hours use
+
+Full document available at:
+policy.example.org/facility
+        </p>
+      </article>
+
+    </section>
+  </main>
+
+  <footer>
+    This is a digital bulletin board. For questions or updates, contact your site administrator.
+  </footer>
+</body>
+</html>
