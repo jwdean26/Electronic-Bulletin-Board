@@ -162,8 +162,28 @@
       text-align: center;
       padding: 0 1rem;
     }
+
+    /* --- Collapsible notes --- */
+    .note.collapsible .full-text {
+    display: none;
+    margin-top: 0.5rem;
+    }
+
+    .note.collapsible.expanded .full-text {
+    display: block;
+    }
+
+    .toggle-btn {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #0055aa;
+    cursor: pointer;
+    text-decoration: underline;
+    user-select: none;
+    }
   </style>
 </head>
+
 <body>
   <header>
     <h1>Fountains V Electronic Bulletin Board</h1>
