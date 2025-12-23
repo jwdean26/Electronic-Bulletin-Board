@@ -221,6 +221,21 @@
     .toggle-btn:hover {
     color: #003f7f;
     }
+
+    /* --- Slide-down animation for collapsible notes --- */
+    .full-text {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease;
+    }
+
+    .note.expanded .full-text {
+    max-height: 2000px; /* large enough to fit any note */
+    }
+
+    .note.expanded .preview-text {
+    display: none;
+    }
   </style>
 </head>
 
@@ -287,13 +302,9 @@ async function loadNotes() {
         const preview = article.querySelector('.preview-text');
 
         toggle.addEventListener('click', () => {
-          const expanded = full.style.display === 'block';
-
-          full.style.display = expanded ? 'none' : 'block';
-          preview.style.display = expanded ? 'block' : 'none';
-
-          toggle.textContent = expanded ? 'Show more' : 'Show less';
-          toggle.setAttribute('aria-expanded', !expanded);
+        const expanded = article.classList.toggle('expanded');
+        toggle.textContent = expanded ? 'Show less' : 'Show more';
+        toggle.setAttribute('aria-expanded', expanded);
         });
       }
 
