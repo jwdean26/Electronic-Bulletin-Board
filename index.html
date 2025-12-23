@@ -222,19 +222,29 @@
     color: #003f7f;
     }
 
-    /* --- Slide-down animation for collapsible notes --- */
+   /* --- Smooth slide + fade animation --- */
     .full-text {
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.35s ease;
+    opacity: 0;
+    transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease;
     }
 
     .note.expanded .full-text {
-    max-height: 2000px; /* large enough to fit any note */
+    max-height: 2000px; /* large enough for any note */
+    opacity: 1;
+    }
+
+/* Keep preview visible during collapse */
+    .preview-text {
+    transition: opacity 0.25s ease;
     }
 
     .note.expanded .preview-text {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
     }
   </style>
 </head>
