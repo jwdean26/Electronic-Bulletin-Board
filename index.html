@@ -181,17 +181,58 @@
     text-decoration: underline;
     user-select: none;
     }
+
+    /* --- Accessibility: Skip Link --- */
+    .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 10px;
+    background: #fff;
+    padding: 8px 12px;
+    z-index: 1000;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: #000;
+    }
+
+    .skip-link:focus {
+    top: 10px;
+    }
+
+/* --- Accessibility: Focus outlines --- */
+    :focus {
+    outline: 3px solid #005fcc;
+    outline-offset: 3px;
+    }
+
+/* --- Collapsible note improvements --- */
+    .toggle-btn {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #0055aa;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    text-decoration: underline;
+    }
+
+    .toggle-btn:hover {
+    color: #003f7f;
+    }
   </style>
 </head>
 
 <body>
+  <a href="#board" class="skip-link">Skip to bulletin board</a>
   <header>
     <h1>Fountains V Electronic Bulletin Board</h1>
     <p>Information, Announcements, Sign-up Sheets, Thank You Notes, Help Wanted, Condo Rentals, etc. — all in one place.</p>
   </header>
 
   <main class="board-wrapper">
-    <section class="board" id="board" aria-label="Bulletin board"></section>
+    <section class="board" id="board" aria-label="Bulletin board" role="region"></section>
   </main>
 
   <footer>
@@ -206,41 +247,58 @@ async function loadNotes() {
 
     const board = document.getElementById('board');
 
-    notes.forEach(note => {
-    const article = document.createElement('article');
-    article.className = `note ${note.type}`;
+    notes.forEach((note, index) => {
+      const article = document.createElement('article');
+      article.className = `note ${note.type}`;
+      article.setAttribute("role", "article");
+      article.setAttribute("aria-label", note.title);
 
-    const fullText = note.text.replace(/\n/g, '<br>');
-    const previewLimit = 200;
-    const isLong = fullText.length > previewLimit;
-    const previewText = fullText.substring(0, previewLimit) + '...';
+      const fullText = note.text.replace(/\n/g, '<br>');
+      const previewLimit = 200;
+      const isLong = fullText.length > previewLimit;
+      const previewText = isLong ? fullText.substring(0, previewLimit) + '...' : fullText;
 
-    article.classList.toggle('collapsible', isLong);
+      const fullId = `full-${index}`;
+      const previewId = `preview-${index}`;
 
-    article.innerHTML = `
-    <h2>${note.title}</h2>
-    <div class="meta">${note.meta}</div>
+      article.innerHTML = `
+        <h2>${note.title}</h2>
+        <div class="meta">${note.meta}</div>
 
-    <p class="preview-text">${isLong ? previewText : fullText}</p>
+        <p class="preview-text" id="${previewId}">
+          ${isLong ? previewText : fullText}
+        </p>
 
-    ${isLong ? `
-      <p class="full-text">${fullText}</p>
-      <div class="toggle-btn">Show more</div>
-    ` : ''}
-  `;
+        ${isLong ? `
+          <p class="full-text" id="${fullId}" style="display:none;">
+            ${fullText}
+          </p>
+          <button class="toggle-btn"
+                  aria-expanded="false"
+                  aria-controls="${fullId}">
+            Show more
+          </button>
+        ` : ''}
+      `;
 
-    if (isLong) {
-      const toggle = article.querySelector('.toggle-btn');
-      toggle.addEventListener('click', () => {
-        article.classList.toggle('expanded');
-        toggle.textContent = article.classList.contains('expanded')
-        ? 'Show less'
-        : 'Show more';
-      });
-    }
+      if (isLong) {
+        const toggle = article.querySelector('.toggle-btn');
+        const full = article.querySelector('.full-text');
+        const preview = article.querySelector('.preview-text');
 
-    board.appendChild(article);
-  });
+        toggle.addEventListener('click', () => {
+          const expanded = full.style.display === 'block';
+
+          full.style.display = expanded ? 'none' : 'block';
+          preview.style.display = expanded ? 'block' : 'none';
+
+          toggle.textContent = expanded ? 'Show more' : 'Show less';
+          toggle.setAttribute('aria-expanded', !expanded);
+        });
+      }
+
+      board.appendChild(article);
+    });
 
   } catch (err) {
     console.error("Error loading notes:", err);
