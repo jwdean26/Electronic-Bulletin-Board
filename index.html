@@ -277,24 +277,24 @@ async function loadNotes() {
       const previewId = `preview-${index}`;
 
       article.innerHTML = `
-        <h2>${note.title}</h2>
-        <div class="meta">${note.meta}</div>
+      <h2>${note.title}</h2>
+      <div class="meta">${note.meta}</div>
 
-        <p class="preview-text" id="${previewId}">
-          ${isLong ? previewText : fullText}
-        </p>
+      <p class="preview-text" id="${previewId}">
+        ${isLong ? previewText : fullText}
+      </p>
 
-        ${isLong ? `
-          <p class="full-text" id="${fullId}" style="display:none;">
-            ${fullText}
-          </p>
-          <button class="toggle-btn"
-                  aria-expanded="false"
-                  aria-controls="${fullId}">
-            Show more
-          </button>
-        ` : ''}
-      `;
+      ${isLong ? `
+      <p class="full-text" id="${fullId}">
+      ${fullText}
+      </p>
+      <button class="toggle-btn"
+            aria-expanded="false"
+            aria-controls="${fullId}">
+      Show more
+      </button>
+      ` : ''}
+    `;
 
       if (isLong) {
         const toggle = article.querySelector('.toggle-btn');
