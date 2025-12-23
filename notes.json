@@ -1,0 +1,20 @@
+[
+  {
+    "type": "announcement",
+    "title": "Upcoming Event: Spring Cleanup",
+    "meta": "Posted: March 1 • Location: Community Park",
+    "text": "Join us for our annual Spring Cleanup day!\n\n• Time: 9:00 AM – 12:00 PM\n• Meet at the north parking lot\n• Snacks and water provided"
+  },
+  {
+    "type": "signup",
+    "title": "Volunteer Signup",
+    "meta": "Spring Cleanup • Sign up for a role",
+    "text": "Roles we’re looking to fill:\n- Check-in table\n- Refreshment station\n- Trash and recycling team\n- Photo / social media"
+  },
+  {
+    "type": "thankyou",
+    "title": "Thank You!",
+    "meta": "From: Event Committee",
+    "text": "A huge thank you to everyone who helped with last month’s fundraiser.\n\nWe exceeded our goal and it wouldn’t have been possible without you."
+  }
+]
