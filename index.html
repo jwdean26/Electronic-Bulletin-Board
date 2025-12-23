@@ -172,7 +172,9 @@
 
   <main class="board-wrapper">
     <section class="board" aria-label="Bulletin board">
+<section class="board" id="board"></section>
 
+      
       <!-- Announcement -->
       <article class="note announcement">
         <h2>SAVE THESE 2025-2026 DATES</h2>
@@ -422,5 +424,35 @@ We exceeded our goal and it wouldn’t have been possible without you.
   <footer>
     This is a digital bulletin board. For questions or updates, contact your site administrator.
   </footer>
+  
+  <script>
+  async function loadNotes() {
+    try {
+      const response = await fetch('notes.json');
+      const notes = await response.json();
+
+      const board = document.getElementById('board');
+
+      notes.forEach(note => {
+        const article = document.createElement('article');
+        article.className = `note ${note.type}`;
+
+        article.innerHTML = `
+          <h2>${note.title}</h2>
+          <div class="meta">${note.meta}</div>
+          <p>${note.text.replace(/\n/g, '<br>')}</p>
+        `;
+
+        board.appendChild(article);
+      });
+
+    } catch (err) {
+      console.error("Error loading notes:", err);
+    }
+  }
+
+  loadNotes();
+  </script>
+  
 </body>
 </html>
