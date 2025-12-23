@@ -260,8 +260,8 @@ async function loadNotes() {
       const previewText = fullText.substring(0, previewLimit);
       const difference = fullText.length - previewText.length;
 
-      // Only show "Show more" if there's at least 30 characters hidden
-      const isLong = difference > 30;
+      // Only show "Show more" if there's at least 50 characters hidden
+      const isLong = difference > 50;
 
       const fullId = `full-${index}`;
       const previewId = `preview-${index}`;
