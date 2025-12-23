@@ -222,29 +222,6 @@
     color: #003f7f;
     }
 
- /* Smooth fade + slide */
-    .full-text {
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    transition:
-    max-height 0.35s ease,
-    opacity 0.25s ease;
-    }
-
-    .note.expanded .full-text {
-    max-height: 2000px;
-    opacity: 1;
-    }
-
-    .preview-text {
-    transition: opacity 0.25s ease;
-    }
-    
-    .note.expanded .preview-text {
-    opacity: 0;
-    pointer-events: none;
-    }
   </style>
 </head>
 
@@ -290,13 +267,14 @@ async function loadNotes() {
       <div class="meta">${note.meta}</div>
 
       <p class="preview-text" id="${previewId}">
-        ${isLong ? previewText : fullText}
+      ${isLong ? previewText : fullText}
       </p>
 
       ${isLong ? `
-      <p class="full-text" id="${fullId}">
+      <p class="full-text" id="${fullId}" style="display:none;">
       ${fullText}
       </p>
+     
       <button class="toggle-btn"
             aria-expanded="false"
             aria-controls="${fullId}">
@@ -319,23 +297,11 @@ async function loadNotes() {
         const full = article.querySelector('.full-text');
 
         if (expanded) {
-        // EXPANDING
-        preview.style.opacity = 0;
-
-        // After fade-out, remove preview from layout
-        setTimeout(() => {
         preview.style.display = 'none';
-        }, 250); // matches CSS fade duration
-
+        full.style.display = 'block';
         } else {
-        // COLLAPSING
-        // Put preview back into layout immediately
         preview.style.display = 'block';
-
-        // Then fade it in after full-text starts collapsing
-        setTimeout(() => {
-        preview.style.opacity = 1;
-        }, 50);
+        full.style.display = 'none';
       }
     });
       }
