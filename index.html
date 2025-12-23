@@ -179,34 +179,35 @@
     This is a digital bulletin board. For questions or updates, contact your site administrator.
   </footer>
   
-  <script>
-  async function loadNotes() {
-    try {
-      const response = await fetch('notes.json');
-      const notes = await response.json();
+<script>
+async function loadNotes() {
+  try {
+    const response = await fetch('notes.json');
+    const notes = await response.json();
 
-      const board = document.getElementById('board');
+    const board = document.getElementById('board');
 
-      notes.forEach(note => {
-        const article = document.createElement('article');
-        article.className = `note ${note.type}`;
+    notes.forEach(note => {
+      const article = document.createElement('article');
+      article.className = `note ${note.type}`;
 
-        article.innerHTML = `
-          <h2>${note.title}</h2>
-          <div class="meta">${note.meta}</div>
-          <p>${note.text.replace(/\n/g, '<br>')}</p>
-        `;
+      // IMPORTANT: use innerHTML so <a href="..."> works
+      article.innerHTML = `
+        <h2>${note.title}</h2>
+        <div class="meta">${note.meta}</div>
+        <p>${note.text.replace(/\n/g, '<br>')}</p>
+      `;
 
-        board.appendChild(article);
-      });
+      board.appendChild(article);
+    });
 
-    } catch (err) {
-      console.error("Error loading notes:", err);
-    }
+  } catch (err) {
+    console.error("Error loading notes:", err);
   }
+}
 
-  loadNotes();
-  </script>
+loadNotes();
+</script>
   
 </body>
 </html>
