@@ -222,7 +222,7 @@
     color: #003f7f;
     }
 
-   /* --- Smooth slide + fade animation --- */
+ /* Smooth fade + slide */
     .full-text {
     overflow: hidden;
     max-height: 0;
@@ -233,15 +233,14 @@
     }
 
     .note.expanded .full-text {
-    max-height: 2000px; /* large enough for any note */
+    max-height: 2000px;
     opacity: 1;
     }
 
-/* Keep preview visible during collapse */
     .preview-text {
     transition: opacity 0.25s ease;
     }
-
+    
     .note.expanded .preview-text {
     opacity: 0;
     pointer-events: none;
@@ -315,7 +314,30 @@ async function loadNotes() {
         const expanded = article.classList.toggle('expanded');
         toggle.textContent = expanded ? 'Show less' : 'Show more';
         toggle.setAttribute('aria-expanded', expanded);
-        });
+
+        const preview = article.querySelector('.preview-text');
+        const full = article.querySelector('.full-text');
+
+        if (expanded) {
+        // EXPANDING
+        preview.style.opacity = 0;
+
+        // After fade-out, remove preview from layout
+        setTimeout(() => {
+        preview.style.display = 'none';
+        }, 250); // matches CSS fade duration
+
+        } else {
+        // COLLAPSING
+        // Put preview back into layout immediately
+        preview.style.display = 'block';
+
+        // Then fade it in after full-text starts collapsing
+        setTimeout(() => {
+        preview.style.opacity = 1;
+        }, 50);
+      }
+    });
       }
 
       board.appendChild(article);
