@@ -224,12 +224,12 @@ async function loadNotes() {
       <h2>${note.title}</h2>
       <div class="meta">${note.meta}</div>
 
-      <p class="preview-text">${previewText}</p>
+      <p class="preview-text">${isLong ? previewText : fullText}</p>
 
+      ${isLong ? `
       <p class="full-text">${fullText}</p>
-
-    ${isLong ? `<div class="toggle-btn">Show more</div>` : ''}
-    `;
+      <div class="toggle-btn">Show more</div>
+      ` : ''}
 
     if (isLong) {
       const toggle = article.querySelector('.toggle-btn');
