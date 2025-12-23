@@ -256,8 +256,12 @@ async function loadNotes() {
 
       const fullText = note.text.replace(/\n/g, '<br>');
       const previewLimit = 200;
-      const isLong = fullText.length > previewLimit;
-      const previewText = isLong ? fullText.substring(0, previewLimit) + '...' : fullText;
+
+      const previewText = fullText.substring(0, previewLimit);
+      const difference = fullText.length - previewText.length;
+
+      // Only show "Show more" if there's at least 30 characters hidden
+      const isLong = difference > 30;
 
       const fullId = `full-${index}`;
       const previewId = `preview-${index}`;
@@ -267,22 +271,20 @@ async function loadNotes() {
       <div class="meta">${note.meta}</div>
 
       <p class="preview-text" id="${previewId}">
-      ${isLong ? previewText : fullText}
+      ${isLong ? previewText + '...' : fullText}
       </p>
 
       ${isLong ? `
       <p class="full-text" id="${fullId}" style="display:none;">
       ${fullText}
       </p>
-     
       <button class="toggle-btn"
             aria-expanded="false"
             aria-controls="${fullId}">
       Show more
       </button>
-      ` : ''}
-    `;
-
+    ` : ''}
+  `;
       if (isLong) {
         const toggle = article.querySelector('.toggle-btn');
         const full = article.querySelector('.full-text');
