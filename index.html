@@ -1,1 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fountains V E-Bulletin Board</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* --- Page basics --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #ece7dd;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      max-width: 1200px;
+      padding: 1.5rem 1rem 0.5rem;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    /* --- The bulletin board itself --- */
+    .board-wrapper {
+      width: 100%;
+      max-width: 1200px;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .board {
+      position: relative;
+      width: 100%;
+      min-height: 70vh;
+      background: #d2a679;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.18) 0, transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(0,0,0,0.12) 0, transparent 35%);
+      border-radius: 18px;
+      box-shadow:
+        0 18px 45px rgba(0,0,0,0.35),
+        inset 0 0 18px rgba(0,0,0,0.35);
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* --- Note styles --- */
+    .note {
+      position: relative;
+      background: #fffae3;
+      padding: 1rem 1.1rem 1rem;
+      border-radius: 6px;
+      box-shadow:
+        0 10px 15px rgba(0,0,0,0.35),
+        0 0 0 1px rgba(0,0,0,0.08);
+      transform: rotate(-2deg);
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        translate 0.18s ease;
+    }
+
+    .note:nth-child(2n) { transform: rotate(2deg); }
+    .note:nth-child(3n) { transform: rotate(-1deg); }
+
+    .note:hover {
+      translate: 0 -4px;
+      box-shadow:
+        0 14px 24px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(0,0,0,0.12);
+    }
+
+    .note h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .note .meta {
+      font-size: 0.8rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .note p {
+      font-size: 0.9rem;
+      line-height: 1.35;
+      white-space: pre-line;
+    }
+
+    /* --- Pushpin / tape visual --- */
+    .note::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff, #c00);
+      border: 2px solid rgba(0,0,0,0.35);
+      transform: translateX(-50%);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.45);
+    }
+
+    /* --- Note “types” (color coding) --- */
+    .note.announcement {
+      background: #fff9c4;
+    }
+
+    .note.signup {
+      background: #e3f2fd;
+    }
+
+    .note.thankyou {
+      background: #fce4ec;
+    }
+
+    .note.document {
+      background: #f3e5f5;
+    }
+
+    /* Simple “list” look for signup sheets */
+    .signup ul {
+      margin-top: 0.5rem;
+      padding-left: 1.2rem;
+      font-size: 0.9rem;
+    }
+
+    .signup li {
+      margin-bottom: 0.15rem;
+    }
+
+    /* --- Footer --- */
+    footer {
+      margin: 1.5rem 0 1.5rem;
+      font-size: 0.8rem;
+      color: #777;
+      text-align: center;
+      padding: 0 1rem;
+    }
+
+    /* --- Collapsible notes --- */
+    .note.collapsible .full-text {
+    display: none;
+    margin-top: 0.5rem;
+    }
+
+    .note.collapsible.expanded .full-text {
+    display: block;
+    }
+
+    .toggle-btn {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #0055aa;
+    cursor: pointer;
+    text-decoration: underline;
+    user-select: none;
+    }
+
+    /* --- Accessibility: Skip Link --- */
+    .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 10px;
+    background: #fff;
+    padding: 8px 12px;
+    z-index: 1000;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: #000;
+    }
+
+    .skip-link:focus {
+    top: 10px;
+    }
+
+/* --- Accessibility: Focus outlines --- */
+    :focus {
+    outline: 3px solid #005fcc;
+    outline-offset: 3px;
+    }
+
+/* --- Collapsible note improvements --- */
+    .toggle-btn {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #0055aa;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    text-decoration: underline;
+    }
+
+    .toggle-btn:hover {
+    color: #003f7f;
+    }
+
+  </style>
+</head>
+
+<body>
+  <a href="#board" class="skip-link">Skip to bulletin board</a>
+  <header>
+    <h1>Fountains V E-Bulletin Board</h1>
+    <p>Information, Announcements, Sign-up Sheets, Thank You Notes, Help Wanted, Condo Rentals, etc. — all in one place.</p>
+  </header>
+
+  <main class="board-wrapper">
+    <section class="board" id="board" aria-label="Bulletin board" role="region"></section>
+  </main>
+
+  <footer>
+    This is a digital version of the Fountains V Bulletin Board. For questions or updates, please contact John Dean.
+  </footer>
+  
+<script>
+async function loadNotes() {
+  try {
+    const response = await fetch('notes.json');
+    const notes = await response.json();
+
+    const board = document.getElementById('board');
+
+    for (let index = 0; index < notes.length; index++) {
+      const note = notes[index];
+      const article = document.createElement('article');
+      article.className = `note ${note.type}`;
+      article.setAttribute("role", "article");
+      article.setAttribute("aria-label", note.title);
+
+      // --- Load text from external file if "source" is present ---
+      let raw = "";
+      if (note.source) {
+        try {
+          const fileResponse = await fetch(note.source);
+          raw = await fileResponse.text();
+        } catch (err) {
+          raw = "Error loading document.";
+        }
+      } else {
+        raw = note.text || "";
+      }
+
+      // Detect REAL HTML in the original content (e.g., <a>, <strong>, etc.)
+      // const containsHTML = /<a\s+[^>]*>|<strong>|<em>|<ul>|<ol>|<li>|<p[^>]*>/.test(raw);
+      const containsHTML = /<a href=/.test(raw);
+      // Now convert newlines to <br> for display
+      let fullText = raw.replace(/\n/g, '<br>');
+
+      let previewText = fullText;
+      let isLong = false;
+
+      if (!containsHTML) {
+        // Safe to truncate because there are no HTML tags we might break
+        const previewLimit = 200;
+        previewText = fullText.substring(0, previewLimit);
+        const difference = fullText.length - previewText.length;
+
+        // Only show "Show more" if at least 30 characters are hidden
+        isLong = difference > 30;
+      } else {
+        // Contains HTML (e.g., your <a href=...> links) → show full content
+        isLong = false;
+      }
+
+      const fullId = `full-${index}`;
+      const previewId = `preview-${index}`;
+
+      article.innerHTML = `
+        <h2>${note.title}</h2>
+        <div class="meta">${note.meta}</div>
+
+        <p class="preview-text" id="${previewId}">
+          ${isLong ? previewText + '...' : fullText}
+        </p>
+
+        ${isLong ? `
+          <p class="full-text" id="${fullId}" style="display:none;">
+            ${fullText}
+          </p>
+          <button class="toggle-btn"
+                  aria-expanded="false"
+                  aria-controls="${fullId}">
+            Show more
+          </button>
+        ` : ''}
+      `;
+
+      // --- Toggle behavior for long, plain-text notes ---
+      if (isLong) {
+        const toggle = article.querySelector('.toggle-btn');
+        const preview = article.querySelector('.preview-text');
+        const full = article.querySelector('.full-text');
+
+        toggle.addEventListener('click', () => {
+          const expanded = article.classList.toggle('expanded');
+          toggle.textContent = expanded ? 'Show less' : 'Show more';
+          toggle.setAttribute('aria-expanded', expanded);
+
+          if (expanded) {
+            preview.style.display = 'none';
+            full.style.display = 'block';
+          } else {
+            preview.style.display = 'block';
+            full.style.display = 'none';
+          }
+        });
+      }
+
+      board.appendChild(article);
+    }
+
+  } catch (err) {
+    console.error("Error loading notes:", err);
+  }
+}
+
+loadNotes();
+</script>
+</body>
+</html>
