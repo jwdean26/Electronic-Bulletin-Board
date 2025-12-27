@@ -1,2 +1,2 @@
 <a href="https://github.com/jwdean26/Electronic-Bulletin-Board/blob/main/docs/Hurricane%20Preparation%20List.pdf" target="_blank">Hurricane Preparation</a>
-<a href="https://drive.google.com/file/d/1SNgd3xFq1zwOhxT0fnVpAhPQ09fOiNUY/view" target="_blank">Hurricane Readiness</a>
+<a href="https://github.com/jwdean26/Electronic-Bulletin-Board/blob/main/docs/2024%20HURRICANEPREPAREDNESSGUIDELINES-COLLIER-LEE.pdf" target="_blank">Hurricane Readiness</a>
