@@ -277,7 +277,7 @@ async function loadNotes() {
       let previewText = fullText;
       let isLong = false;
 
-      const previewLimit = 300;
+      const previewLimit = 200;
 
       if (containsHTML) {
         // Find all <a ...>...</a> links
@@ -298,12 +298,12 @@ async function loadNotes() {
 
         // Now truncate safely
         previewText = fullText.substring(0, safeCut);
-        isLong = fullText.length > safeCut + 30;
+        isLong = fullText.length > safeCut + 50;
 
       } else {
       // No HTML — safe to truncate normally
       previewText = fullText.substring(0, previewLimit);
-      isLong = fullText.length > previewLimit + 30;
+      isLong = fullText.length > previewLimit + 50;
       }
       const fullId = `full-${index}`;
       const previewId = `preview-${index}`;
