@@ -248,9 +248,6 @@ async function loadNotes() {
 
     const board = document.getElementById('board');
 
-    // Regex to detect URLs for auto-linking
-    const urlRegex = /(https?:\/\/[^\s<]+)/g;
-
     for (let index = 0; index < notes.length; index++) {
       const note = notes[index];
       const article = document.createElement('article');
@@ -271,22 +268,17 @@ async function loadNotes() {
         raw = note.text || "";
       }
 
-      // --- Auto-convert plain URLs into clickable links ---
-      raw = raw.replace(urlRegex, url => {
-        return `<a href="${url}" target="_blank">${url}</a>`;
-      });
+      // Detect REAL HTML in the original content (e.g., <a>, <strong>, etc.)
+      const containsHTML = /<a\s+[^>]*>|<strong>|<em>|<ul>|<ol>|<li>|<p[^>]*>/.test(raw);
 
-      // --- Detect ANY HTML tag (including <a>, <strong>, <p>, etc.) ---
-      const containsHTML = /<[^>]+>/.test(raw);
-
-      // Convert newlines to <br> for display
+      // Now convert newlines to <br> for display
       let fullText = raw.replace(/\n/g, '<br>');
 
       let previewText = fullText;
       let isLong = false;
 
-      // --- Only truncate if the note contains NO HTML ---
       if (!containsHTML) {
+        // Safe to truncate because there are no HTML tags we might break
         const previewLimit = 200;
         previewText = fullText.substring(0, previewLimit);
         const difference = fullText.length - previewText.length;
@@ -294,7 +286,7 @@ async function loadNotes() {
         // Only show "Show more" if at least 30 characters are hidden
         isLong = difference > 30;
       } else {
-        // HTML present → never truncate (prevents broken tags)
+        // Contains HTML (e.g., your <a href=...> links) → show full content
         isLong = false;
       }
 
