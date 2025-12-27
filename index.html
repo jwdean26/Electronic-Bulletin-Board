@@ -248,6 +248,9 @@ async function loadNotes() {
 
     const board = document.getElementById('board');
 
+    // Regex to detect URLs
+    const urlRegex = /(https?:\/\/[^\s<]+)/g;
+
     for (let index = 0; index < notes.length; index++) {
       const note = notes[index];
       const article = document.createElement('article');
@@ -268,10 +271,15 @@ async function loadNotes() {
         raw = note.text || "";
       }
 
-      // Detect REAL HTML in the original content (e.g., <a>, <strong>, etc.)
+      // --- Auto-convert URLs to clickable links ---
+      raw = raw.replace(urlRegex, url => {
+        return `<a href="${url}" target="_blank">${url}</a>`;
+      });
+
+      // Detect REAL HTML (links, formatting)
       const containsHTML = /<a\s+[^>]*>|<strong>|<em>|<ul>|<ol>|<li>|<p[^>]*>/.test(raw);
 
-      // Now convert newlines to <br> for display
+      // Convert newlines to <br>
       let fullText = raw.replace(/\n/g, '<br>');
 
       let previewText = fullText;
@@ -286,7 +294,7 @@ async function loadNotes() {
         // Only show "Show more" if at least 30 characters are hidden
         isLong = difference > 30;
       } else {
-        // Contains HTML (e.g., your <a href=...> links) → show full content
+        // Contains HTML (e.g., auto-linked URLs) → show full content
         isLong = false;
       }
 
