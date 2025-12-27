@@ -256,37 +256,38 @@ async function loadNotes() {
       article.setAttribute("aria-label", note.title);
 
       // --- Load text from external file if "source" is present ---
-      let fullText = "";
+      let raw = "";
       if (note.source) {
         try {
           const fileResponse = await fetch(note.source);
-          let raw = await fileResponse.text();
-
-          // Convert newlines to <br>
-          raw = raw.replace(/\n/g, '<br>');
-          fullText = raw;
+          raw = await fileResponse.text();
         } catch (err) {
-          fullText = "Error loading document.";
+          raw = "Error loading document.";
         }
       } else {
-        // Use inline text from JSON
-        fullText = note.text.replace(/\n/g, '<br>');
+        raw = note.text || "";
       }
 
-      // --- Detect HTML so we don't break tags by truncating ---
-      const containsHTML = /<[^>]+>/.test(fullText);
+      // Detect REAL HTML in the original content (e.g., <a>, <strong>, etc.)
+      const containsHTML = /<a\s+[^>]*>|<strong>|<em>|<ul>|<ol>|<li>|<p[^>]*>/.test(raw);
+
+      // Now convert newlines to <br> for display
+      let fullText = raw.replace(/\n/g, '<br>');
 
       let previewText = fullText;
       let isLong = false;
 
       if (!containsHTML) {
-        // Safe to truncate because there are no HTML tags
+        // Safe to truncate because there are no HTML tags we might break
         const previewLimit = 200;
         previewText = fullText.substring(0, previewLimit);
         const difference = fullText.length - previewText.length;
 
         // Only show "Show more" if at least 30 characters are hidden
         isLong = difference > 30;
+      } else {
+        // Contains HTML (e.g., your <a href=...> links) → show full content
+        isLong = false;
       }
 
       const fullId = `full-${index}`;
@@ -312,7 +313,7 @@ async function loadNotes() {
         ` : ''}
       `;
 
-      // --- Toggle behavior ---
+      // --- Toggle behavior for long, plain-text notes ---
       if (isLong) {
         const toggle = article.querySelector('.toggle-btn');
         const preview = article.querySelector('.preview-text');
