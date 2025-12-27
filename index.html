@@ -273,13 +273,21 @@ async function loadNotes() {
         fullText = note.text.replace(/\n/g, '<br>');
       }
 
-      // --- Collapsible logic ---
-      const previewLimit = 200;
-      const previewText = fullText.substring(0, previewLimit);
-      const difference = fullText.length - previewText.length;
+      // --- Detect HTML so we don't break tags by truncating ---
+      const containsHTML = /<[^>]+>/.test(fullText);
 
-      // Only show "Show more" if at least 30 characters are hidden
-      const isLong = difference > 30;
+      let previewText = fullText;
+      let isLong = false;
+
+      if (!containsHTML) {
+        // Safe to truncate because there are no HTML tags
+        const previewLimit = 200;
+        previewText = fullText.substring(0, previewLimit);
+        const difference = fullText.length - previewText.length;
+
+        // Only show "Show more" if at least 30 characters are hidden
+        isLong = difference > 30;
+      }
 
       const fullId = `full-${index}`;
       const previewId = `preview-${index}`;
@@ -334,6 +342,6 @@ async function loadNotes() {
 }
 
 loadNotes();
-</script>  
+</script>
 </body>
 </html>
