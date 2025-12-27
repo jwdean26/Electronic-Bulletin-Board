@@ -269,8 +269,8 @@ async function loadNotes() {
       }
 
       // Detect REAL HTML in the original content (e.g., <a>, <strong>, etc.)
-      const containsHTML = /<a\s+[^>]*>|<strong>|<em>|<ul>|<ol>|<li>|<p[^>]*>/.test(raw);
-
+      // const containsHTML = /<a\s+[^>]*>|<strong>|<em>|<ul>|<ol>|<li>|<p[^>]*>/.test(raw);
+      const containsHTML = /<a href=/.test(raw);
       // Now convert newlines to <br> for display
       let fullText = raw.replace(/\n/g, '<br>');
 
