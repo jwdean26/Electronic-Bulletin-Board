@@ -1,10 +1,10 @@
 [
   {
+    "type": "general",
     "title": "Photos",
     "meta": "Fountains V Community Gallery",
-    "type": "general",
     "text": "Click to view the Fountains V Community Photo Board",
-    "link": "photos.html"
+    "link": "docs/photos.html"
   },
   {
     "type": "announcement",
