@@ -1,5 +1,12 @@
 [
   {
+    "title": "Photos",
+    "meta": "Fountains V Community Gallery",
+    "type": "general",
+    "text": "Click to view the Fountains V Community Photo Board",
+    "link": "photos.html"
+  },
+  {
     "type": "announcement",
     "title": "SAVE THESE 2025-2026 DATES",
     "meta": "Posted: December 20, 2025 • Location: Fountains V",
