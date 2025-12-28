@@ -255,6 +255,13 @@ async function loadNotes() {
       article.setAttribute("role", "article");
       article.setAttribute("aria-label", note.title);
 
+      if (note.link) {
+        article.addEventListener("click", () => {
+          window.open(note.link, "_blank");
+        });
+        article.style.cursor = "pointer";
+      }
+
       // --- Load text from external file if "source" is present ---
       let raw = "";
       if (note.source) {
