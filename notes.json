@@ -1,12 +1,5 @@
 [
   {
-    "type": "general",
-    "title": "Photos",
-    "meta": "Fountains V Community Gallery",
-    "text": "<u>Click to view the Fountains V Community Photo Board</u>",
-    "link": "docs/photos.html"
-  },
-  {
     "type": "announcement",
     "title": "SAVE THESE 2025-2026 DATES",
     "meta": "Posted: December 20, 2025 • Location: Fountains V",
@@ -83,5 +76,12 @@
     "title": "Interested in renting February and/or March 2026",
     "meta": "Posted: December 20, 2025 • Location: Fountains V",
     "source": "docs/INTERESTED IN RENTING A CONDO.txt"
+  },
+  {
+    "type": "general",
+    "title": "Photos",
+    "meta": "Fountains V Community Gallery",
+    "text": "<u>Click to view the Fountains V Community Photo Board</u>",
+    "link": "docs/photos.html"
   }
 ]
