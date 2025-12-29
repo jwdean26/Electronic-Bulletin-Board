@@ -58,11 +58,13 @@
     }
     
     .photo-card img {
+      display: block;        /* removes inline spacing */
+      margin: 0 auto;        /* centers the image */
       width: 100%;
-      height: 180px; /* uniform height */
-      object-fit: contain; /* show entire image */
-      background: #fff; /* fills letterbox apace */
-      border: 3px solid #b5651d; /* warm brown frame */
+      height: 180px;
+      object-fit: contain;
+      background: #fff;
+      border: 3px solid #b5651d;
       border-radius: 4px;
     }
 
