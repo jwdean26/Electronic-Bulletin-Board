@@ -31,13 +31,22 @@
 
     .photo-card {
       position: relative;
-      background: #fff;
-      padding: 10px;
-      border-radius: 6px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transform: rotate(var(--rotation));
-      width: 250px;
-      transition: transform 0.2s ease;
+      padding-top: 30px; /* make room for the pin */
+    }
+
+    .photo-card::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff, #c00);
+      border: 2px solid rgba(0,0,0,0.35);
+      transform: translateX(-50%);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.45);
+      z-index: 10;
     }
 
     .photo-card:hover {
@@ -57,17 +66,6 @@
       color: #333;
     }
 
-    .pin {
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 30px;
-      height: 30px;
-      background: url('pushpin.png') no-repeat center;
-      background-size: contain;
-      z-index: 5;
-    }
   </style>
 </head>
 <body>
@@ -93,7 +91,6 @@
           card.style.setProperty('--rotation', rotation);
 
           card.innerHTML = `
-            <div class="pin"></div>
             <img src="${photo.file}" alt="${photo.caption}">
             <div class="caption">${photo.caption}</div>
           `;
