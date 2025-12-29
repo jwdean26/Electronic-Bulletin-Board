@@ -32,8 +32,16 @@
     .photo-card {
       width: 250px;
       position: relative;
-      border: 1px solid red;
       padding-top: 30px; /* make room for the pin */
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 180px; /* uniform height */
+      object-fit: contain; /* show entire image */
+      background: #fff; /* fills letterbox apace */
+      border: 3px solid #b5651d; /* warm brown frame */
+      border-radius: 4px;
     }
 
     .photo-card::before {
@@ -56,33 +64,31 @@
       z-index: 10;
     }
 
-    .photo-card img {
-      width: 100%;
-      height: 180px; /* uniform height */
-      object-fit: contain; /* show entire image */
-      background: #fff; /* fills letterbox apace */
-      border: 3px solid #b5651d; /* warm brown frame */
-      border-radius: 4px;
-    }
-
     .photo-card.enlarged {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) rotate(0deg);
-      max-width: 90vw;
-      max-height: 90vh;
+      z-index: 9999;
       background: #fff;
       padding: 10px;
-      z-index: 9999;
-      cursor: zoom-out;
       box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      cursor: zoom-out;
+
+      /* NEW: ensure the container never exceeds the viewport */
+      max-width: 90vw;
+      max-height: 90vh;
+      width: auto;
+      height: auto;
     }
 
     .photo-card.enlarged img {
+      /* NEW: scale image to fit inside the viewport */
+      max-width: 100%;
+      max-height: 100%;
       width: auto;
-      height: 90vh; /* fit vertically */
-      object-fit: contain; /* show entire image */
+      height: auto;
+      object-fit: contain;
     }
 
     .caption {
