@@ -31,8 +31,8 @@
 
     .photo-card {
       width: 250px;
-      height: auto;
       position: relative;
+      border: 1px solid red;
       padding-top: 30px; /* make room for the pin */
     }
 
@@ -59,7 +59,8 @@
     .photo-card img {
       width: 100%;
       height: 180px; /* uniform height */
-      object-fit: contain; /* crops nicely */
+      object-fit: contain; /* show entire image */
+      background: #fff; /* fills letterbox apace */
       border: 3px solid #b5651d; /* warm brown frame */
       border-radius: 4px;
     }
@@ -69,8 +70,6 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) rotate(0deg);
-      width: auto;
-      height: auto;
       max-width: 90vw;
       max-height: 90vh;
       background: #fff;
