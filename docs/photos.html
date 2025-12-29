@@ -1,12 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Fountains V Community Photos</title>
+  <title>Fountains V Community Photo Board</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: url('corkboard.jpg') repeat;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #4b2e12;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 2px #fff;
+    }
+
+    #photo-board {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .photo-card {
+      position: relative;
+      background: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transform: rotate(var(--rotation));
+      width: 250px;
+      transition: transform 0.2s ease;
+    }
+
+    .photo-card:hover {
+      transform: rotate(0deg) scale(1.05);
+      z-index: 10;
+    }
+
+    .photo-card img {
+      width: 100%;
+      border-radius: 4px;
+    }
+
+    .caption {
+      margin-top: 8px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    .pin {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 30px;
+      background: url('pushpin.png') no-repeat center;
+      background-size: contain;
+      z-index: 5;
+    }
+  </style>
 </head>
 <body>
+
   <h1>Fountains V Community Photo Board</h1>
-  <p>Photo board coming soon…</p>
+
+  <div id="photo-board"></div>
+
+  <script>
+    async function loadPhotos() {
+      try {
+        const response = await fetch('photos.json');
+        const photos = await response.json();
+
+        const board = document.getElementById('photo-board');
+
+        photos.forEach(photo => {
+          const card = document.createElement('div');
+          card.className = 'photo-card';
+
+          // Random rotation for natural corkboard look
+          const rotation = (Math.random() * 10 - 5).toFixed(2) + 'deg';
+          card.style.setProperty('--rotation', rotation);
+
+          card.innerHTML = `
+            <div class="pin"></div>
+            <img src="${photo.file}" alt="${photo.caption}">
+            <div class="caption">${photo.caption}</div>
+          `;
+
+          board.appendChild(card);
+        });
+
+      } catch (err) {
+        console.error("Error loading photos:", err);
+      }
+    }
+
+    loadPhotos();
+  </script>
+
 </body>
 </html>
