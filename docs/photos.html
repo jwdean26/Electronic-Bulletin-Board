@@ -109,10 +109,10 @@
 
         const board = document.getElementById('photo-board');
 
-        const groups = photos.reduce((acc, photo) => {
-          (acc[photo.year] ||= []).push(photo);
-          return acc;
-        }, {});
+        //const groups = photos.reduce((acc, photo) => {
+          //(acc[photo.year] ||= []).push(photo);
+          //return acc;
+        //}, {});
         
         photos.forEach(photo => {
           const card = document.createElement('div');
