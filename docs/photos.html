@@ -22,6 +22,24 @@
       text-shadow: 1px 1px 2px #fff;
     }
 
+    .board {
+      position: relative;
+      width: 100%;
+      min-height: 70vh;
+      background: #d2a679;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.18) 0, transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(0,0,0,0.12) 0, transparent 35%);
+      border-radius: 18px;
+      box-shadow:
+        0 18px 45px rgba(0,0,0,0.35),
+        inset 0 0 18px rgba(0,0,0,0.35);
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
     #photo-board {
       display: flex;
       flex-wrap: wrap;
@@ -104,7 +122,9 @@
 
   <h1>Fountains V Community Photo Board</h1>
 
-  <div id="photo-board"></div>
+  <div class="board">
+    <div id="photo-board"></div>
+  </div>
 
   <script>
     async function loadPhotos() {
