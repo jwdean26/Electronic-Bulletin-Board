@@ -1,6 +1,18 @@
 [
   {
     "type": "announcement",
+    "title": "A Night of Dancing Through the Decades",
+    "meta": "Posted: January 10, 2026 • Location: Pool 2",
+    "source": "docs/Dancing Through the Decades.txt"
+  },
+  {
+    "type": "announcement",
+    "title": "Lanai Screen Replacement",
+    "meta": "Posted: January 10, 2026 • Location: Fountains V",
+    "source": "docs/Lanai Screen Replacement.txt"
+  },
+  {
+    "type": "announcement",
     "title": "SAVE THESE 2025-2026 DATES",
     "meta": "Posted: December 20, 2025 • Location: Fountains V",
     "source": "docs/SAVE THESE 2025-2026 DATES.txt"
