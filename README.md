@@ -1,0 +1,1 @@
+This is an electronic version of a physical bulletin board.  It allows for posting information, announcements, etc.  It also has the functionality to add photos on its own bulletin board that will display in a separate window.
